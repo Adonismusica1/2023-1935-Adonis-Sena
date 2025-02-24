@@ -1,0 +1,80 @@
+using System;
+
+public class Calculadora
+{
+    private double ultimoResultado;
+
+    public double UltimoResultado
+    {
+        get { return ultimoResultado; }
+        private set { ultimoResultado = value; }
+    }
+    public Calculadora()
+    {
+        UltimoResultado = 0;
+    }
+    public Calculadora(double valorInicial)
+    {
+        UltimoResultado = valorInicial;
+    }
+    public double Sumar(double a, double b)
+    {
+        UltimoResultado = a + b;
+        return UltimoResultado;
+    }
+    public double Restar(double a, double b)
+    {
+        UltimoResultado = a - b;
+        return UltimoResultado;
+    }
+    public double Multiplicar(double a, double b)
+    {
+        UltimoResultado = a * b;
+        return UltimoResultado;
+    }
+
+    public double Dividir(double a, double b)
+    {
+        if (b != 0)
+        {
+            UltimoResultado = a / b;
+        }
+        else
+        {
+            throw new DivideByZeroException("No se puede dividir entre cero.");
+        }
+        return UltimoResultado;
+    }
+
+    public static void Main(string[] args)
+    {
+        Calculadora calc = new Calculadora();
+
+        double num1 = 3.5;
+        double num2 = 4.5;
+        calc.Sumar(num1, num2);
+        Console.WriteLine($"El resultado de la suma de {num1} y {num2} es: " + calc.UltimoResultado);
+
+        num1 = 10;
+        num2 = 4;
+        calc.Restar(num1, num2);
+        Console.WriteLine($"El resultado de la resta de {num1} y {num2} es: " + calc.UltimoResultado);
+
+        num1 = 3;
+        num2 = 5;
+        calc.Multiplicar(num1, num2);
+        Console.WriteLine($"El resultado de la multiplicación de {num1} y {num2} es: " + calc.UltimoResultado);
+
+        try
+        {
+            num1 = 9;
+            num2 = 3;
+            calc.Dividir(num1, num2);
+            Console.WriteLine($"El resultado de la división de {num1} entre {num2} es: " + calc.UltimoResultado);
+        }
+        catch (DivideByZeroException ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+}
