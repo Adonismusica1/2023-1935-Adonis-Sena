@@ -1,0 +1,166 @@
+public class GestorContactos
+{
+    private List<Contacto> contactos;
+
+    public GestorContactos()
+    {
+        contactos = new List<Contacto>();
+    }
+
+    public void AgregarContacto(string nombre, string telefono, string email, string direccion)
+    {
+        int id = contactos.Count + 1;
+        Contacto nuevoContacto = new Contacto(id, nombre, telefono, email, direccion);
+        contactos.Add(nuevoContacto);
+        Console.WriteLine("Contacto agregado con éxito.");
+    }
+
+    public void VerContactos()
+    {
+        Console.WriteLine("Id    Nombre    Teléfono    Email    Dirección");
+        Console.WriteLine("_______________________________________________");
+        foreach (var contacto in contactos)
+        {
+            Console.WriteLine(contacto);
+        }
+    }
+
+    public void BuscarContacto(int id)
+    {
+        Contacto contacto = contactos.FirstOrDefault(c => c.Id == id);
+        if (contacto != null)
+        {
+            Console.WriteLine(contacto);
+        }
+        else
+        {
+            Console.WriteLine("No se encontró un contacto con ese Id.");
+        }
+    }
+
+    public void EditarContacto(int id, string nombre, string telefono, string email, string direccion)
+    {
+        Contacto contacto = contactos.FirstOrDefault(c => c.Id == id);
+        if (contacto != null)
+        {
+            contacto.Nombre = nombre;
+            contacto.Telefono = telefono;
+            contacto.Email = email;
+            contacto.Direccion = direccion;
+            Console.WriteLine("Contacto editado con éxito.");
+        }
+        else
+        {
+            Console.WriteLine("No se encontró un contacto con ese Id.");
+        }
+    }
+
+    public void EliminarContacto(int id)
+    {
+        Contacto contacto = contactos.FirstOrDefault(c => c.Id == id);
+        if (contacto != null)
+        {
+            contactos.Remove(contacto);
+            Console.WriteLine("Contacto eliminado con éxito.");
+        }
+        else
+        {
+            Console.WriteLine("No se encontró un contacto con ese Id.");
+        }
+    }
+}
+
+public class Contacto
+{
+    public int Id { get; set; }
+    public string Nombre { get; set; }
+    public string Telefono { get; set; }
+    public string Email { get; set; }
+    public string Direccion { get; set; }
+
+    public Contacto(int id, string nombre, string telefono, string email, string direccion)
+    {
+        Id = id;
+        Nombre = nombre;
+        Telefono = telefono;
+        Email = email;
+        Direccion = direccion;
+    }
+
+    public override string ToString()
+    {
+        return $"{Id}    {Nombre}    {Telefono}    {Email}    {Direccion}";
+    }
+}
+class Program
+{
+    static void Main(string[] args)
+    {
+        Console.WriteLine("Bienvenido a tu lista de contactos");
+        GestorContactos gestor = new GestorContactos();
+
+        bool running = true;
+        while (running)
+        {
+            Console.WriteLine("1. Agregar Contacto      2. Ver Contactos");
+            Console.WriteLine("3. Buscar Contacto       4. Modificar Contacto");
+            Console.WriteLine("5. Eliminar Contacto     6. Salir");
+            Console.Write("Elige una opción: ");
+
+            int choice = Convert.ToInt32(Console.ReadLine());
+
+            switch (choice)
+            {
+                case 1:
+                    Console.Write("Digite el Nombre: ");
+                    string nombre = Console.ReadLine();
+                    Console.Write("Digite el Teléfono: ");
+                    string telefono = Console.ReadLine();
+                    Console.Write("Digite el Email: ");
+                    string email = Console.ReadLine();
+                    Console.Write("Digite la Dirección: ");
+                    string direccion = Console.ReadLine();
+                    gestor.AgregarContacto(nombre, telefono, email, direccion);
+                    break;
+
+                case 2:
+                    gestor.VerContactos();
+                    break;
+
+                case 3:
+                    Console.Write("Digite el Id del Contacto: ");
+                    int idBusqueda = Convert.ToInt32(Console.ReadLine());
+                    gestor.BuscarContacto(idBusqueda);
+                    break;
+
+                case 4:
+                    Console.Write("Digite el Id del Contacto a Editar: ");
+                    int idEdicion = Convert.ToInt32(Console.ReadLine());
+                    Console.Write("Nuevo Nombre: ");
+                    string nuevoNombre = Console.ReadLine();
+                    Console.Write("Nuevo Teléfono: ");
+                    string nuevoTelefono = Console.ReadLine();
+                    Console.Write("Nuevo Email: ");
+                    string nuevoEmail = Console.ReadLine();
+                    Console.Write("Nueva Dirección: ");
+                    string nuevaDireccion = Console.ReadLine();
+                    gestor.EditarContacto(idEdicion, nuevoNombre, nuevoTelefono, nuevoEmail, nuevaDireccion);
+                    break;
+
+                case 5:
+                    Console.Write("Digite el Id del Contacto a Eliminar: ");
+                    int idEliminar = Convert.ToInt32(Console.ReadLine());
+                    gestor.EliminarContacto(idEliminar);
+                    break;
+
+                case 6:
+                    running = false;
+                    break;
+
+                default:
+                    Console.WriteLine("Opción no válida.");
+                    break;
+            }
+        }
+    }
+}
